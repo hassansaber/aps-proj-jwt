@@ -1,15 +1,19 @@
 const express = require("express");
 const app = express();
-const connectDB = require("./connectDB/connect");
+const connectDB = require("./db/connect");
 require("dotenv").config();
-//-----
+userRouter = require("./routes/user.route");
+//-----------------
+
 app.use(express.json());
+
+app.use("/api/v1/user", userRouter);
 
 app.get("/", (req, res) => {
   res.send("HOME");
 });
 
-//-------
+//-------server
 const PORT = 8000;
 
 const server = async () => {
