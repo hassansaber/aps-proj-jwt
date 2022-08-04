@@ -25,9 +25,9 @@ const createUser = async (req, res) => {
       password: hashedPassword,
     });
     const usrResult = await userNew.save();
-    res.status(201).json(usrResult);
+    return res.status(201).json(usrResult);
   } catch (err) {
-    res.status(500).json(err.message);
+    return res.status(500).json(err.message);
   }
 };
 
@@ -37,9 +37,9 @@ const createUser = async (req, res) => {
 const readUsers = async (req, res) => {
   try {
     const userslist = await UserModel.find({});
-    res.status(200).json(userslist);
+    return res.status(200).json(userslist);
   } catch (err) {
-    res.status(500).json(err.message);
+    return res.status(500).json(err.message);
   }
 };
 
@@ -63,18 +63,18 @@ const updateUser = async (req, res) => {
         runValidators: true,
       }
     );
-    res.status(200).json(updatedUser);
+    return res.status(200).json(updatedUser);
   } catch (err) {
-    res.status(500).json(err.message);
+    return res.status(500).json(err.message);
   }
 };
 
 const deleteUser = async (req, res) => {
   try {
     const deletedUser = await UserModel.findByIdAndDelete(req.params.id);
-    res.status(200).send("user has been deleted");
+    return res.status(200).send("user has been deleted");
   } catch (err) {
-    res.status(400).send(err.message);
+    return res.status(400).send(err.message);
   }
 };
 

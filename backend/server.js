@@ -2,12 +2,15 @@ const express = require("express");
 const app = express();
 const connectDB = require("./db/connect");
 require("dotenv").config();
-userRouter = require("./routes/user.route");
+const requestMiddleware = require("./middlewares/request.middleware");
+const userRouter = require("./routes/user.route");
+const authUserRouter = require("./routes/auth.route");
 //-----------------
 
-app.use(express.json());
+app.use(requestMiddleware);
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/auth", authUserRouter);
 
 app.get("/", (req, res) => {
   res.send("HOME");
