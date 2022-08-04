@@ -51,8 +51,18 @@ const updateUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    const deletedUser = await UserModel.findByIdAndDelete(req.params.id);
+    res.status(200).send("user has been deleted");
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
+
 module.exports = {
   createUser,
   readUsers,
   updateUser,
+  deleteUser,
 };
