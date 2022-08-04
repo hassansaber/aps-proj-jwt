@@ -1,11 +1,29 @@
 const UserModel = require("../model/user.model");
+const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 
 //CRUD
 // save()  === add to DB
 //Create
 const createUser = async (req, res) => {
+  //middleWare error
+  // Finds the validation errors in this request and wraps them in an object with handy functions
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  //-
   try {
-    const userNew = new UserModel(req.body);
+    const { password, name, email } = req.body;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const userNew = new UserModel({
+      name,
+      email,
+      password: hashedPassword,
+    });
     const usrResult = await userNew.save();
     res.status(201).json(usrResult);
   } catch (err) {
